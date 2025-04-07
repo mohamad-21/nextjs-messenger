@@ -17,7 +17,7 @@ function ChatMessages({ user, chatUser }: Props) {
   const socket = useSocket();
 
   async function updateMessages() {
-    const res = await fetch(`http://localhost:3000/api/chat/private/messages?between=${user.id}&between=${chatUser.id}`);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/chat/private/messages?between=${user.id}&between=${chatUser.id}`);
     const data = await res.json();
     setMessages(data.map((item: PrivateMessage) => {
       item.createdAt = new Date(item.createdAt);
