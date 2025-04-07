@@ -1,0 +1,133 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgres"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                                            Int              @id @default(autoincrement())
+  name                                          String
+  email                                         String           @unique
+  username                                      String           @unique
+  bio                                           String?
+  password                                      String?
+  account_type                                  AccountType
+  profile_photo                                 String?
+  status                                        Status           @default(offline)
+  createdAt                                     DateTime         @default(now())
+  updatedAt                                     DateTime         @updatedAt
+  members                                       ChannelMember[]
+  channels                                      Channel[]
+  private_chats_user_id                         PrivateChat[]    @relation("private_chats_user_idTousers")
+  private_chats_chat_id                         PrivateChat[]    @relation("private_chats_chat_idTousers")
+  private_messages_private_messages_fromTousers PrivateMessage[] @relation("private_messages_fromTousers")
+
+  @@map("users")
+}
+
+model Channel {
+  id                Int             @id @default(autoincrement())
+  name              String
+  owner_id          Int
+  link              String
+  profile_photo     String?
+  last_message      String?
+  last_message_date DateTime?
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+  members           ChannelMember[]
+  users             User            @relation(fields: [owner_id], references: [id])
+
+  @@index([owner_id], map: "owner_id")
+  @@map("channels")
+}
+
+model PrivateChat {
+  id                 Int              @id @default(autoincrement())
+  user_id            Int
+  chat_id            Int
+  last_message       String?
+  last_message_image String?          @db.Text
+  last_message_date  DateTime?
+  createdAt          DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt
+  users_user_id      User             @relation("private_chats_user_idTousers", fields: [user_id], references: [id], onUpdate: Restrict, map: "private_chats_ibfk_1")
+  users_chat_id      User             @relation("private_chats_chat_idTousers", fields: [chat_id], references: [id], onUpdate: Restrict, map: "private_chats_ibfk_2")
+  privateMessages    PrivateMessage[]
+
+  @@map("private_chats")
+}
+
+model ChannelMember {
+  id         Int          @id @default(autoincrement())
+  channel_id Int
+  member_id  Int
+  role       Members_role
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  channels   Channel      @relation(fields: [channel_id], references: [id], onDelete: Cascade)
+  users      User         @relation(fields: [member_id], references: [id], onDelete: Cascade)
+
+  @@index([channel_id], map: "channel_id")
+  @@index([member_id], map: "member_id")
+  @@map("channel_members")
+}
+
+model ChatLink {
+  id   Int      @id @default(autoincrement())
+  link String   @unique(map: "link")
+  type ChatType
+
+  @@map("chat_links")
+}
+
+model PrivateMessage {
+  id                                 Int         @id @default(autoincrement())
+  from                               Int
+  to                                 Int
+  chat_id                            Int
+  message                            String?     @db.Text
+  createdAt                          DateTime    @default(now())
+  updatedAt                          DateTime    @updatedAt
+  isEdited                           Int         @default(0)
+  unread                             Int         @default(1)
+  image                              String?     @db.Text
+  privateChats                       PrivateChat @relation(fields: [chat_id], references: [id])
+  users_private_messages_fromTousers User        @relation("private_messages_fromTousers", fields: [from], references: [id], onDelete: Cascade, map: "private_messages_ibfk_1")
+
+  @@index([from], map: "from")
+  @@index([to], map: "to")
+  @@index([chat_id], map: "chat_id")
+  @@map("private_messages")
+}
+
+model BlockList {
+  id         Int @id @default(autoincrement())
+  user_id    Int
+  blocked_id Int
+
+  @@map("block_lists")
+}
+
+enum AccountType {
+  oAuth
+  credential
+}
+
+enum Members_role {
+  admin
+  member
+}
+
+enum ChatType {
+  channel
+  private
+}
+
+enum Status {
+  online
+  offline
+}
