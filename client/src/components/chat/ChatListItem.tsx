@@ -34,14 +34,16 @@ function ChatListItem({ chat }: Props) {
                 </span>
               )}
             </div>
-            {chat.last_message_image && (
-              <img src={chat.last_message_image} width={20} height={20} alt={chat.last_message || "image"} className="mr-2" />
-            )}
-            {chat.last_message && (
-              <span className="text-sm font-light text-muted-foreground truncate max-w-xs text-left">
-                {chat.last_message}
-              </span>
-            )}
+            <div className="inline-flex items-center gap-1">
+              {chat.last_message_image && (
+                <img src={chat.last_message_image} width={20} height={20} alt={chat.last_message || "image"} className="mr-2" />
+              )}
+              {chat.last_message && (
+                <span className="text-sm font-light text-muted-foreground truncate max-w-xs text-left">
+                  {chat.last_message}
+                </span>
+              )}
+            </div>
           </div>
         </div>
 
