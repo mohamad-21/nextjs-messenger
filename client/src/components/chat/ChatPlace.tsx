@@ -14,7 +14,8 @@ async function ChatPlace() {
       email: session?.user?.email!
     }
   })
-  let pathname = headers().get("x-pathname");
+  let pathname = headers().get("x-pathname") || "";
+  pathname = decodeURIComponent(pathname);
 
   if (pathname === "/" || !pathname) {
     return (
