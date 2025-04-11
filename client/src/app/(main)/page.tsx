@@ -21,7 +21,7 @@ function Home({ searchParams }: Props) {
       {navigate === "edit-profile" && (
         <EditProfileWrapper />
       )}
-      <div className={`flex-1 ${pathname !== "/" ? "md:block hidden" : ""}`}>
+      <div className={`flex-1 ${pathname !== "/" ? "md:block hidden" : ""} max-h-screen overflow-hidden`}>
         <TopHeaderWrapper />
         <ChatListWrapper />
       </div>

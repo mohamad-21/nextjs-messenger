@@ -7,7 +7,7 @@ async function ChatListWrapper() {
   const chatlist = await getUserChatlist({ fetchMode: "session" });
 
   return (
-    <div className="flex-1">
+    <div className="flex-1 overflow-y-auto">
       <ChatList chatlist={chatlist} user={session?.user!} />
     </div>
   )

@@ -13,10 +13,8 @@ function ChatPage({ searchParams }: Props) {
   const { navigate } = searchParams;
   const pathname = headers().get("x-pathname");
 
-
-
   return (
-    <div className="flex flex-1">
+    <div className="flex flex-1 max-h-[100dvh] overflow-hidden">
       {navigate === "settings" && (
         <SettingsWrapper />
       )}
