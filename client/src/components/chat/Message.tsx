@@ -104,7 +104,7 @@ function Message({ message, sessionUser }: Props) {
                   )}
                 </div>
               )}
-              <p className="whitespace-pre-line inline mr-1.5">{message.message}</p>
+              <p className="whitespace-pre-line inline mr-1.5">{message.message?.trim()}</p>
               <div className="inline-flex items-center gap-1 text-slate-400">
                 {message.isEdited === 1 && (
                   <span className="text-sm">edited</span>
