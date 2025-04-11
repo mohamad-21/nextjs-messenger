@@ -205,7 +205,7 @@ export async function getUserChatlist({ fetchMode = "session", email }: { fetchM
   // });
 
   // return [...privateChatLists, ...channelsList].sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
-  return [...privateChatLists].sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
+  return [...privateChatLists].sort((a, b) => (b.last_message_date?.getTime() ?? b.updatedAt.getTime()) - (a.last_message_date?.getTime() ?? a.updatedAt.getTime()));
 
 }
 
