@@ -68,7 +68,7 @@ function ChatHeader({ user, chat, blockList }: Props) {
       <Dialog open={showProfileDetails} onOpenChange={(open) => {
         if (!open) setShowProfileDetails(false);
       }}>
-        <Button variant="secondary" className="w-full flex items-center text-left justify-between gap-3 py-3 px-5 h-auto" onClick={() => setShowProfileDetails(true)}>
+        <Button variant="secondary" className="w-full flex items-center text-left justify-between gap-3 py-2.5 px-5 h-auto bg-zinc-900 rounded-none" onClick={() => setShowProfileDetails(true)}>
           <div className="flex items-center gap-2">
             <div className="md:hidden" onClick={() => router.back()}><ChevronLeft size={20} className="!size-6" /></div>
             <div>
