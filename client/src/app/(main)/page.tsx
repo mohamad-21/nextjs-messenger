@@ -14,14 +14,14 @@ function Home({ searchParams }: Props) {
   const pathname = headers().get("x-pathname");
 
   return (
-    <div className="flex flex-1">
+    <div className="flex flex-1 max-h-[100dvh] overflow-hidden">
       {navigate === "settings" && (
         <SettingsWrapper />
       )}
       {navigate === "edit-profile" && (
         <EditProfileWrapper />
       )}
-      <div className={`flex-1 ${pathname !== "/" ? "md:block hidden" : ""} max-h-screen overflow-hidden`}>
+      <div className={`flex-1 ${pathname !== "/" ? "md:block hidden" : ""} overflow-auto chatlist`}>
         <TopHeaderWrapper />
         <ChatListWrapper />
       </div>

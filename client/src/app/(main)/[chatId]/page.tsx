@@ -21,7 +21,7 @@ function ChatPage({ searchParams }: Props) {
       {navigate === "edit-profile" && (
         <EditProfileWrapper />
       )}
-      <div className={`flex-1 ${pathname !== "/" ? "md:block hidden" : ""}`}>
+      <div className={`flex-1 ${pathname !== "/" ? "md:block hidden" : ""} overflow-auto chatlist`}>
         <TopHeaderWrapper />
         <ChatListWrapper />
       </div>
